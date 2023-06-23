@@ -30,12 +30,13 @@ const SignUpForm: React.FunctionComponent<ISignUpFormProps> = (props) => {
 
     const {register, handleSubmit, formState: { errors }} = useForm<UserSubmitForm>({
         resolver: yupResolver(validationSchema)
-        });
+    });
 
-        const onSubmit = (data: UserSubmitForm) => {
-            console.log(JSON.stringify(data, null, 2));
-          };
-          return (
+    const onSubmit = (data: UserSubmitForm) => {
+      console.log(JSON.stringify(data, null, 2));
+    };
+          
+    return (
             <div className="register-form">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">

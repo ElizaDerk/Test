@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
 
 interface LoginFormValues {
@@ -9,11 +10,7 @@ interface LoginFormValues {
   password: string;
 }
 
-interface Props {
-  setAuth: React.Dispatch<React.SetStateAction<boolean>>  
-}
-
-const LoginForm: React.FunctionComponent<Props> = ({setAuth}) => {
+const LoginForm: React.FunctionComponent = () => {
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required'),
@@ -25,10 +22,11 @@ const LoginForm: React.FunctionComponent<Props> = ({setAuth}) => {
   });
 
 
+  const {authenticated, setAuthenticated} = useContext(AuthContext)
   const navigate = useNavigate()
 
   const onSubmit = () => {
-    setAuth(true)
+    setAuthenticated(true)
     navigate('/')
   }
 
