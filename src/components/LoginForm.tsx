@@ -4,10 +4,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
+import { login } from '../api';
 
 interface LoginFormValues {
   userName: string;
   password: string;
+}
+
+interface LoginFormProps {
+  toggleForm: () => void;
 }
 
 const LoginForm: React.FunctionComponent = () => {
@@ -25,9 +30,16 @@ const LoginForm: React.FunctionComponent = () => {
   const {authenticated, setAuthenticated} = useContext(AuthContext)
   const navigate = useNavigate()
 
-  const onSubmit = () => {
-    setAuthenticated(true)
-    navigate('/')
+  const onSubmit = async(data: LoginFormValues) => {
+    try {
+      // Отправка POST-запроса на вход в аккаунт
+      const response = await login(data);
+      console.log(response); // Обработка успешного ответа
+      setAuthenticated(true); // Устанавливаем значение аутентификации в true
+      navigate('/'); // Перенаправление на главную страницу после успешного входа
+    } catch (error) {
+      console.error(error); // Обработка ошибки
+    }  
   }
 
   return (

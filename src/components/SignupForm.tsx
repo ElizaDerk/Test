@@ -2,17 +2,21 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { registerAccount } from '../api';
 
 type UserSubmitForm = {
     fullname: string;
     username: string;
     email: string;
     password: string;
+
   };
 
-export interface ISignUpFormProps {}
+export interface ISignUpFormProps {
+  toggleForm: () => void;
+}
 
-const SignUpForm: React.FunctionComponent<ISignUpFormProps> = (props) => {
+const SignUpForm: React.FunctionComponent<ISignUpFormProps> = ({ toggleForm }) => {
     const validationSchema = Yup.object().shape({
         fullname: Yup.string().required('Fullname is required'),
         username: Yup.string()
@@ -32,8 +36,15 @@ const SignUpForm: React.FunctionComponent<ISignUpFormProps> = (props) => {
         resolver: yupResolver(validationSchema)
     });
 
-    const onSubmit = (data: UserSubmitForm) => {
-      console.log(JSON.stringify(data, null, 2));
+    const onSubmit = async(data: UserSubmitForm) => {
+      try {
+        // Отправка POST-запроса на регистрацию аккаунта
+        const response = await registerAccount(data);
+        console.log(response); // Обработка успешного ответа
+        toggleForm(); // Вызываем функцию переключения формы после успешной регистрации
+      } catch (error) {
+        console.error(error); // Обработка ошибки
+      }
     };
           
     return (
