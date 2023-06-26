@@ -13,9 +13,10 @@ interface LoginFormValues {
 
 interface LoginFormProps {
   toggleForm: () => void;
+  onError: (errorMessage: string) => void
 }
 
-const LoginForm: React.FunctionComponent = () => {
+const LoginForm: React.FunctionComponent<LoginFormProps> = ({ toggleForm }) => {
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required'),
@@ -25,7 +26,6 @@ const LoginForm: React.FunctionComponent = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
     resolver: yupResolver(validationSchema),
   });
-
 
   const {authenticated, setAuthenticated} = useContext(AuthContext)
   const navigate = useNavigate()

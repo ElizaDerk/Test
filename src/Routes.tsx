@@ -6,26 +6,28 @@ import Auth from './pages/Auth';
 
 type Props = {}
 
-const PrivateRoutes = () => {
-  const { authenticated } = useContext(AuthContext)
+const PrivateRoutes: React.FC = () => {
+  const { authenticated } = useContext(AuthContext);
 
-  if(!authenticated) return <Navigate to='/auth' replace />
+  if (!authenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
 
-  return <Outlet />
-}
+  return <Outlet />;
+};
 
-const Routes = (props: Props) => {
-  const { authenticated } = useContext(AuthContext)
-
+const Routes: React.FC = () => {
+  const { authenticated } = useContext(AuthContext);
 
   return (
     <Router>
-      <Route path='/auth' element={<Auth />}/>
+      <Route path="/auth/login" element={<Auth />} />
+      <Route path="/auth/register" element={<Auth />} />
       <Route element={<PrivateRoutes />}>
-        <Route path='/' element={<Home />} />
+        <Route path="/" element={<Home />} />
       </Route>
     </Router>
-  )
-}
+  );
+};
 
 export default Routes

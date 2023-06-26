@@ -14,6 +14,7 @@ type UserSubmitForm = {
 
 export interface ISignUpFormProps {
   toggleForm: () => void;
+  onError: (errorMessage: string) => void
 }
 
 const SignUpForm: React.FunctionComponent<ISignUpFormProps> = ({ toggleForm }) => {
