@@ -1,22 +1,51 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://expa.fly.dev';
+const API_BASE_URL = 'https://expa.fly.dev/api/';
 
-// Функция для выполнения POST-запроса на регистрацию аккаунта
+
 export const registerAccount = async (userData: any) => {
-    const response = await axios.post(`${API_BASE_URL}/auth/register`, userData);
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = await axios.post(`${API_BASE_URL}/auth/register`,  userData, config);
+    console.log(response.request._headers);
     return response.data;
+  } catch (error:any) {
+    if (error.response && error.response.status === 401) {
+        console.log(error)
+    //   window.location.href = '/auth/login';
+    }
+    throw error;
+  }
 };
 
-// Функция для выполнения POST-запроса на вход в аккаунт
 export const login = async (credentials: any) => {
-    const response = await axios.post(`${API_BASE_URL}/auth/login`, credentials);
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, credentials, config);
+    console.log(response.request._headers);
     return response.data;
+  } catch (error:any) {
+    if (error.response && error.response.status === 401) {
+      console.log(error)
+    //   window.location.href = '/';
+    }
+    throw error;
+  }
 };
 
-// Функция для выполнения POST-запроса на выход из аккаунта
 export const logout = async () => {
+  try {
     const response = await axios.post(`${API_BASE_URL}/auth/logout`);
     return response.data;
-
+  } catch (error) {
+    throw error;
+  }
 };
